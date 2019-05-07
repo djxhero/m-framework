@@ -1,9 +1,9 @@
 package com.lancslot.morn.initial;
 
 import com.alibaba.fastjson.JSONObject;
-import com.lancslot.morn.util.ConfigProps;
-import com.lancslot.morn.util.GenInvokeResultUtil;
-import com.lancslot.morn.constant.CommonResultCode;
+import com.lancslot.morn.utils.util.ConfigProps;
+import com.lancslot.morn.utils.util.GenInvokeResultUtil;
+import com.lancslot.morn.utils.constant.CommonResultCode;
 import org.jasig.cas.client.authentication.AuthenticationFilter;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.session.SingleSignOutHttpSessionListener;

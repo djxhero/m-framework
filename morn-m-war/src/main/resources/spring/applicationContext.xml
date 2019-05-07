@@ -16,10 +16,10 @@
 
 	<description>框架全局配置</description>
 
-	<bean id="springContextHolder" class="com.lancslot.morn.spring.SpringContextHolder" />
+	<bean id="springContextHolder" class="com.lancslot.morn.utils.spring.SpringContextHolder" />
 
 	<bean id="DecryptedPropertyPlaceholderConfigurer"
-		  class="com.lancslot.morn.config.DecryptedPropertyPlaceholderConfigurer">
+		  class="com.lancslot.morn.utils.config.DecryptedPropertyPlaceholderConfigurer">
 		<property name="order" value="1" />
 		<property name="ignoreUnresolvablePlaceholders" value="true" />
 		<property name="locations">

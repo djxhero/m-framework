@@ -1,8 +1,8 @@
 package com.lancslot.morn.web.controller.base;
 
 
-import com.lancslot.morn.constant.CommonResult;
-import com.lancslot.morn.constant.CommonResultCode;
+import com.lancslot.morn.utils.constant.CommonResult;
+import com.lancslot.morn.utils.constant.CommonResultCode;
 
 /**
  * 

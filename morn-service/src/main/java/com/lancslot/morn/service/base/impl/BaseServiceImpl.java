@@ -3,8 +3,8 @@ package com.lancslot.morn.service.base.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lancslot.morn.dao.base.BaseDao;
-import com.lancslot.morn.mybatis.PageEntity;
-import com.lancslot.morn.mybatis.PagingResult;
+import com.lancslot.morn.utils.mybatis.PageEntity;
+import com.lancslot.morn.utils.mybatis.PagingResult;
 import com.lancslot.morn.service.base.BaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 

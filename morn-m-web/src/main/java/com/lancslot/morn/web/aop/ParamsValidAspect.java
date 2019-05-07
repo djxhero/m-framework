@@ -1,7 +1,7 @@
 package com.lancslot.morn.web.aop;
 
-import com.lancslot.morn.constant.BusinessConstants;
-import com.lancslot.morn.constant.CommonResultCode;
+import com.lancslot.morn.utils.constant.BusinessConstants;
+import com.lancslot.morn.utils.constant.CommonResultCode;
 import com.lancslot.morn.web.aop.annotation.*;
 import com.lancslot.morn.web.exception.ParameterException;
 import org.apache.commons.lang.StringUtils;
