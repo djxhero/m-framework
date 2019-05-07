@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:task="http://www.springframework.org/schema/task"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+
+
+            http://www.springframework.org/schema/task   
+            http://www.springframework.org/schema/task/spring-task-3.0.xsd" default-lazy-init="false">
+
+	<!-- 任务调度器 -->
+	<task:scheduler id="scheduler" pool-size="100"/>
+
+	<!--开启注解调度支持 @Async @Scheduled-->
+	<task:annotation-driven executor="taskExecutor" scheduler="scheduler" />
+	<bean id="taskExecutor"
+		  class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<!-- 核心线程数 -->
+		<property name="corePoolSize" value="100" />
+		<!-- 最大线程数 -->
+		<property name="maxPoolSize" value="200" />
+		<!-- 队列最大长度 >=mainExecutor.maxSize -->
+		<property name="queueCapacity" value="10000" />
+		<!-- 线程池维护线程所允许的空闲时间 -->
+		<property name="keepAliveSeconds" value="1800" />
+		<!-- 线程池对拒绝任务(无线程可用)的处理策略 -->
+		<property name="rejectedExecutionHandler">
+			<bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
+		</property>
+	</bean>
+</beans>

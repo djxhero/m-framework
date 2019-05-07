@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+						http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+
+
+						http://www.springframework.org/schema/tx  
+						http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	<!-- database start -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="filters" value="stat,wall"/>
+		<property name="url" value="${db.url}" />
+		<property name="username" value="${db.userName}" />
+		<property name="password" value="${db.password}" />
+		<!-- 连接池启动时创建的初始化连接数量（默认值为0） -->
+		<property name="initialSize" value="${db.initialSize}"/>
+		<!-- 连接池中可同时连接的最大的连接数 默认 8-->
+		<property name="maxActive" value="${db.maxActive}"/>
+		<!-- 连接池中最小的空闲的连接数，低于这个数量会被创建新的连接 -->
+		<property name="minIdle" value="${db.minIdle}"/>
+		<!--&lt;!&ndash; 连接池中最大的空闲的连接数，超过的空闲连接将被释放，如果设置为负数表示不限制 默认8 &ndash;&gt;-->
+		<!--<property name="maxIdle" value="${db.maxIdle}"/>-->
+		<!-- 最大等待时间，当没有可用连接时，连接池等待连接释放的最大时间，超过该时间限制会抛出异常，如果设置-1表示无限等待 -->
+		<property name="maxWait" value="${db.maxWait}"/>
+		<!-- 默认提交 -->
+		<property name="defaultAutoCommit" value="${db.defaultAutoCommit}"/>
+		<!-- 打开检查,用异步线程evict进行检查 -->
+		<property name="testWhileIdle" value="${db.testWhileIdle}"/>
+		<!-- 就是在进行borrowObject进行处理时，对拿到的connection进行validateObject校验 -->
+		<property name="testOnBorrow" value="${db.testOnBorrow}"/>
+		<!-- 就是在进行returnObject对返回的connection进行validateObject校验，个人觉得对数据库连接池的管理意义不大 -->
+		<property name="testOnReturn" value="${db.testOnReturn}"/>
+		<!--  代表检查的sql -->
+		<property name="validationQuery" value="${db.validationQuery}"/>
+		<property name="timeBetweenEvictionRunsMillis" value="${db.timeBetweenEvictionRunsMillis}"/>
+		<!--&lt;!&ndash; 代表每次检查链接的数量，建议设置和maxActive一样大，这样每次可以有效检查所有的链接.  &ndash;&gt;
+        <property name="numTestsPerEvictionRun" value="${db.numTestsPerEvictionRun}"/>-->
+		<property name="proxyFilters">
+			<list>
+				<ref bean="log-filter"/>
+				<ref bean="stat-filter"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="slowSqlMillis" value="200"/>
+		<property name="logSlowSql" value="true"/>
+	</bean>
+
+	<bean id="log-filter" class="com.alibaba.druid.filter.logging.Slf4jLogFilter">
+		<property name="dataSourceLogEnabled" value="true" />
+		<property name="statementExecutableSqlLogEnable" value="true" />
+	</bean>
+
+	<bean id="transactionManager_job" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager_job"/>
+	
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/mybatis_job.xml" />
+		<property name="mapperLocations">
+			<array>
+				<value>classpath*:mybatis-mapper/*.xml</value>
+			</array>
+		</property>
+  	</bean>
+
+	<bean id="mapperScanner" class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.lancslot.morn.dao"/>
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<property name="annotationClass" value="org.springframework.stereotype.Repository" />
+		<property name="properties">
+			<value>
+				mappers=com.lancslot.morn.dao.base.BaseDao
+			</value>
+		</property>
+	</bean>
+
+	<!-- database end -->
+
+</beans>
